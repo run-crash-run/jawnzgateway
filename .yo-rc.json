@@ -34,6 +34,12 @@
     "dtoSuffix": "DTO",
     "otherModules": [],
     "enableTranslation": false,
-    "blueprints": []
+    "blueprints": [],
+    "herokuAppName": "jawnzgateway",
+    "herokuDeployType": "jar",
+    "herokuJavaVersion": "11",
+    "useOkta": false,
+    "oktaAdminLogin": "40rjlh22j8d@opayq.com",
+    "oktaAdminPassword": "M0nday!!"
   }
 }
