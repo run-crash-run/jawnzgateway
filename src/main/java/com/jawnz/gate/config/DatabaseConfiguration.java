@@ -1,19 +1,17 @@
 package com.jawnz.gate.config;
 
-import io.github.jhipster.config.JHipsterConstants;
-import com.github.mongobee.Mongobee;
-import com.mongodb.MongoClient;
-import io.github.jhipster.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter;
-import io.github.jhipster.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
@@ -23,10 +21,15 @@ import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.SpringDataMongo3Driver;
+import com.github.cloudyrock.spring.v5.MongockSpring5;
+
+import io.changock.runner.spring.v5.SpringInitializingBean;
+import io.github.jhipster.config.JHipsterConstants;
+import io.github.jhipster.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter;
+import io.github.jhipster.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter;
 
 @Configuration
 @EnableElasticsearchRepositories("com.jawnz.gate.repository.search")
@@ -56,14 +59,14 @@ public class DatabaseConfiguration {
         return new MongoCustomConversions(converters);
     }
 
-    @Bean
-    public Mongobee mongobee(MongoClient mongoClient, MongoTemplate mongoTemplate, MongoProperties mongoProperties) {
-        log.debug("Configuring Mongobee");
-        Mongobee mongobee = new Mongobee(mongoClient);
-        mongobee.setDbName(mongoProperties.getMongoClientDatabase());
-        mongobee.setMongoTemplate(mongoTemplate);
-        // package to scan for migrations
-        mongobee.setChangeLogsScanPackage("com.jawnz.gate.config.dbmigrations");
-        mongobee.setEnabled(true);
-        return mongobee;
-    }}
+    public SpringInitializingBean mongockInitializingBeanRunner(
+            ApplicationContext springContext,
+            MongoTemplate mongoTemplate){
+        return MongockSpring5.builder()
+            .setDriver(SpringDataMongo3Driver.withDefaultLock(mongoTemplate))
+            .addChangeLogsScanPackage("com.jawnz.gate.config.dbmigrations")
+            .setSpringContext(springContext)
+            .buildInitializingBeanRunner();
+      }
+    
+}
