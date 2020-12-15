@@ -87,7 +87,16 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- jhipster-needle-maven-add-dependency-management -->
+            <!-- jhipster-needle-maven-add-dependency-management -->            
+                        
+            <dependency>
+	            <groupId>com.github.cloudyrock.mongock</groupId>
+	            <artifactId>mongock-bom</artifactId>
+	            <version>4.1.17</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+        	</dependency>
+            
         </dependencies>
     </dependencyManagement>
 
@@ -151,10 +160,14 @@
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.mongobee</groupId>
-            <artifactId>mongobee</artifactId>
-        </dependency>
+ 		<dependency>
+	        <groupId>com.github.cloudyrock.mongock</groupId>
+	        <artifactId>mongock-spring-v5</artifactId>	      
+    	</dependency>
+	    <dependency>
+	        <groupId>com.github.cloudyrock.mongock</groupId>
+	        <artifactId>mongodb-springdata-v2-driver</artifactId>	        
+	    </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
