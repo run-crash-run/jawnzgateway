@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.config.java.AbstractCloudConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +19,7 @@ import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventL
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.SpringDataMongo3Driver;
+import com.github.cloudyrock.mongock.driver.mongodb.springdata.v2.SpringDataMongo2Driver;
 import com.github.cloudyrock.spring.v5.MongockSpring5;
 import com.github.cloudyrock.spring.v5.MongockSpring5.MongockInitializingBeanRunner;
 
@@ -54,14 +55,18 @@ public class CloudDatabaseConfiguration extends AbstractCloudConfig {
         return new MongoCustomConversions(converterList);
     }
     
-    public MongockInitializingBeanRunner mongockInitializingBeanRunner(
-            ApplicationContext springContext,
-            MongoTemplate mongoTemplate){
+    @Bean
+    public MongockInitializingBeanRunner mongockInitializingBeanRunner(ApplicationContext springContext,
+              MongoTemplate mongoTemplate,
+              @Value("${mongock.lockAcquiredForMinutes:5}") long lockAcquiredForMinutes,
+              @Value("${mongock.maxWaitingForLockMinutes:3}") long maxWaitingForLockMinutes,
+              @Value("${mongock.maxTries:3}") int maxTries) {
+        SpringDataMongo2Driver driver = SpringDataMongo2Driver.withLockSetting(mongoTemplate, lockAcquiredForMinutes, maxWaitingForLockMinutes, maxTries);
         return MongockSpring5.builder()
-            .setDriver(SpringDataMongo3Driver.withDefaultLock(mongoTemplate))
+            .setDriver(driver)
             .addChangeLogsScanPackage("com.jawnz.gate.config.dbmigrations")
             .setSpringContext(springContext)
             .buildInitializingBeanRunner();
-      }
+    }
     
 }

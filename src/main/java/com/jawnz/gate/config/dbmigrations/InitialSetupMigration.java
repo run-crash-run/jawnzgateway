@@ -2,7 +2,7 @@ package com.jawnz.gate.config.dbmigrations;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
-import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
+import com.github.cloudyrock.mongock.driver.mongodb.springdata.v2.decorator.impl.MongockTemplate;
 import com.jawnz.gate.domain.Authority;
 import com.jawnz.gate.security.AuthoritiesConstants;
 
