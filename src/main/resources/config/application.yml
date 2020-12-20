@@ -134,11 +134,11 @@ spring:
       client:
         provider:
           oidc:
-            issuer-uri: https://dev-662125.okta.com/oauth2/default
+            issuer-uri: http://localhost:9080/auth/realms/jhipster
         registration:
           oidc:
-            client-id: 0oa15pxb3YLFjNFsb4x6
-            client-secret: -NqYoZU7icewsclKBuoZ5PbRhDyhdv7W4IvhP6qd
+            client-id: internal
+            client-secret: internal
 
 server:
   servlet:
