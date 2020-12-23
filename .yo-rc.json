@@ -38,8 +38,8 @@
     "herokuAppName": "jawnzgateway",
     "herokuDeployType": "jar",
     "herokuJavaVersion": "11",
-    "useOkta": false,
+    "useOkta": true,
     "oktaAdminLogin": "40rjlh22j8d@opayq.com",
-    "oktaAdminPassword": "M0nday!!"
+    "oktaAdminPassword": "Password1"
   }
 }

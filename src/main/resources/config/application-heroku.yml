@@ -32,3 +32,13 @@ spring:
       uri: ${MONGODB_URI}?authMode=scram-sha1
     jest:
       uri: ${BONSAI_URL}
+  security:
+    oauth2:
+      client:
+        provider:
+          oidc:
+            issuer-uri: ${OKTA_OAUTH2_ISSUER}
+        registration:
+          oidc:
+            client-id: ${OKTA_OAUTH2_CLIENT_ID_WEB}
+            client-secret: ${OKTA_OAUTH2_CLIENT_SECRET_WEB}
